@@ -204,5 +204,5 @@ void deleteContact(AddressBook *addressBook)
         break;
         default: printf("Enter valid option\n");
     }
-    printf("Contact deleted successfully\n");
+    printf("Contact deleted successfullyy\n");
 }
