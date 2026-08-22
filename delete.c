@@ -2,7 +2,7 @@
 #include<string.h>
 #include "contact.h"
 
-void delete(char *str,AddressBook *main,int i)
+void delete(AddressBook *main,int i)
 {
     for(int j=i;j<main->contactCount-1;j++)
     {
