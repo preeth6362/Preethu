@@ -57,7 +57,7 @@ int search_name(const char *sub,const AddressBook *main,int i)
             int flag=0;
             if((main->contacts[i].name[j]==sub[0])||(main->contacts[i].name[j]+32==sub[0])||(main->contacts[i].name[j]-32==sub[0]))
             {
-                for(int k=j+1,p=1;sub[p]!=0 && main->contacts[i].phone[k]!=0;k++,p++)
+                for(int k=j+1,p=1;sub[p]!=0;k++,p++)
                 {
                     if((main->contacts[i].name[k]==sub[p])||(main->contacts[i].name[k]+32==sub[p])||(main->contacts[i].name[k]-32==sub[p]))
                     continue;
@@ -83,7 +83,7 @@ int search_phone(const char *sub,const AddressBook *main,int i)
             int flag=0;
             if(main->contacts[i].phone[j]==sub[0])
             {
-                for(int k=j+1,p=1;sub[p]!=0 && main->contacts[i].phone[k]!=0;k++,p++)
+                for(int k=j+1,p=1;sub[p]!=0;k++,p++)
                 {
                     if(main->contacts[i].phone[k]==sub[p])
                     continue;
@@ -109,7 +109,7 @@ int search_email(const char *sub,const AddressBook *main,int i)
             int flag=0;
             if((main->contacts[i].email[j]==sub[0])||(main->contacts[i].email[j]+32==sub[0])||(main->contacts[i].email[j]-32==sub[0]))
             {
-                for(int k=j+1,p=1;sub[p]!=0 && main->contacts[i].phone[k]!=0;k++,p++)
+                for(int k=j+1,p=1;sub[p]!=0;k++,p++)
                 {
                     if((main->contacts[i].email[k]==sub[p])||(main->contacts[i].email[k]+32==sub[p])||(main->contacts[i].email[k]-32==sub[p]))
                     continue;

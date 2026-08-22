@@ -166,8 +166,63 @@ void searchContact(AddressBook *addressBook)
 
 void editContact(AddressBook *addressBook)
 {
-	/* Define the logic for Editcontact */
-    
+    int search_name(const char *,const AddressBook *,int);
+    int search_phone(const char *,const AddressBook *,int);
+    int search_email(const char *,const AddressBook *,int);
+    int choice,choice1;
+    char str[50];int match[100];
+	printf("Enter how you want to search : \n");
+    printf("1.By name\n2.By number\n3.By email\n");
+    scanf("%d",&choice);
+	printf("what you want to edit: ");
+    scanf(" %[^\n]",str);
+    switch(choice)
+    {
+        case 1: int n=0;
+        for(int i=0;i<addressBook->contactCount;i++)
+        {
+            if(search_name(str,addressBook,i)==1)
+            {
+            printf("%d] %s\t\t%s\t\t%s\n",n+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
+            match[n++]=i;
+            }
+        }
+        printf("Which contact do you want to edit? ");
+        scanf("%d",&choice1);
+        printf("Enter your new name: ");
+        scanf(" %[^\n]",addressBook->contacts[match[choice1-1]].name);
+        break;
+        case 2: int p=0;
+        for(int i=0;i<addressBook->contactCount;i++)
+        { 
+         if(search_phone(str,addressBook,i)==1)
+         {
+          printf("%d] %s\t\t%s\t\t%s\n",p+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
+          match[p++]=i;
+         }
+        }
+        printf("Which contact do you want to edit? ");
+        scanf("%d",&choice1);
+        printf("Enter your new number: ");
+        scanf(" %[^\n]",addressBook->contacts[match[choice1-1]].phone);
+        break;
+        case 3: int e=0;
+        for(int i=0;i<addressBook->contactCount;i++)
+        {
+          if(search_email(str,addressBook,i)==1)
+          {
+          printf("%d] %s\t\t%s\t\t%s\n",e+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
+          match[e++]=i;
+          }
+        }
+        printf("Which contact do you want to edit? ");
+        scanf("%d",&choice1);
+        printf("Enter your new email: ");
+        scanf(" %[^\n]",addressBook->contacts[match[choice1-1]].email);
+        break;
+        default: printf("Enter valid option\n");
+    }
+    printf("Contact updated successfully.\n");
 }
 
 void deleteContact(AddressBook *addressBook)
