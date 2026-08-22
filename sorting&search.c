@@ -4,12 +4,18 @@
 
 void sort_name(AddressBook *address)
 {
+    void convert(char *);
     Contact temp;
+    char name1[50],name2[50];
     for(int i=0;i<address->contactCount-1;i++)
     {
         for(int j=0;j<address->contactCount-i-1;j++)
         {
-            if(strcmp(address->contacts[j].name,address->contacts[j+1].name)>0)
+            strcpy(name1,address->contacts[j].name);
+            strcpy(name2,address->contacts[j+1].name);
+            convert(name1);
+            convert(name2);
+            if(strcmp(name1,name2)>0)
             {
                 temp=address->contacts[j];
                 address->contacts[j]=address->contacts[j+1];
