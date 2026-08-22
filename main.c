@@ -20,7 +20,7 @@ int main() {
         
         switch (choice) {
             case 1:
-                createContact(&addressBook,addressBook->contactCount);
+                createContact(&addressBook);
                 break;
             case 2:
                 searchContact(&addressBook);
