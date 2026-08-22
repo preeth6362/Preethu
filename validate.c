@@ -1,4 +1,6 @@
 #include<stdio.h>
+#include<string.h>
+#include "contact.h"
 int validate_name(char *str)
 {
     for(int i=0;str[i]!=0;i++)
@@ -8,8 +10,13 @@ int validate_name(char *str)
     } 
     return 1;
 }
-int validate_phone(char *str)
+int validate_phone(char *str,AddressBook *addressBook)
 {
+    for(int i=0;i<addressBook->contactCount;i++)
+    {
+        if(strcmp(addressBook->contacts[i].phone,str)==0)
+        return 4;
+    }
     for(int i=0;str[i]!=0;i++)
     {
         if(i>9)
@@ -19,9 +26,10 @@ int validate_phone(char *str)
         else if(!(str[i]>='0' && str[i]<='9'))
         return 3;
     }
+
     return 0;
 }
-int validate_email(char *str)
+int validate_email(char *str,AddressBook *addressBook)
 {
     int cont=0,len;
     for(len=0;str[len]!=0;len++);
@@ -29,6 +37,11 @@ int validate_email(char *str)
     {
         if(str[i]=='@')
         cont++;
+    }
+    for(int i=0;i<addressBook->contactCount;i++)
+    {
+        if(strcmp(addressBook->contacts[i].email,str)==0)
+        return 7;
     }
     for(int i=0;str[i]!=0;i++)
     {
