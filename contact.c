@@ -34,7 +34,6 @@ void listContacts(AddressBook *addressBook, int sortCriteria)
 
 void initialize(AddressBook *addressBook) {
     addressBook->contactCount = 0;
-    
     // Load contacts from file during initialization (After files)
     loadContactsFromFile(addressBook);
 }
@@ -58,69 +57,45 @@ void createContact(AddressBook *addressBook)
     int validate_phone(char *,AddressBook *);
     printf("2. Enter phone number: ");
     scanf(" %s",addressBook->contacts[addressBook->contactCount].phone);
-    while(validate_phone(addressBook->contacts[addressBook->contactCount].phone,addressBook)!=0)
+    int err;
+    while((err=validate_phone(addressBook->contacts[addressBook->contactCount].phone,addressBook))!=0)
     {
-        if(validate_phone(addressBook->contacts[addressBook->contactCount].phone,addressBook)==1)
+        switch(err)
         {
-        printf("Enter only 10 digits: ");
+        case 1: printf("Enter only 10 digits: ");
+        break;
+        case 2: printf("First digit should be greater than 5 Re-enter valid phone number: ");
+        break;
+        case 3: printf("Enter only digits: "); 
+        break;
+        case 4:  printf("phone no should be unique: ");
+        break;
+        }
         scanf(" %s",addressBook->contacts[addressBook->contactCount].phone);
-        }
-        else if(validate_phone(addressBook->contacts[addressBook->contactCount].phone,addressBook)==2)
-        {
-            printf("First digit should be greater than 5 Re-enter valid phone number: ");
-            scanf(" %s",addressBook->contacts[addressBook->contactCount].phone);
-        }
-        else if(validate_phone(addressBook->contacts[addressBook->contactCount].phone,addressBook)==3)
-        {
-            printf("Enter only digits: "); 
-            scanf(" %s",addressBook->contacts[addressBook->contactCount].phone);
-        }
-        else if(validate_phone(addressBook->contacts[addressBook->contactCount].phone,addressBook)==4)
-        {
-            printf("phone no should be unique: "); 
-            scanf(" %s",addressBook->contacts[addressBook->contactCount].phone);
-        }
     }
     int validate_email(char *,AddressBook *);
     printf("3. Enter emailid: ");
     scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
-    while(validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook)!=0)
+    while((err=validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook))!=0)
     {
-       if(validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook)==1)
-       {
-       printf("email should not contain uppercase characters re enter valid email: ");
-       scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
-       }
-       else if(validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook)==2)
-       {
-        printf("email should not contain any space re enter valid email: ");
+        switch(err)
+        {
+            case 1: printf("email should not contain uppercase characters re enter valid email: ");
+            break;
+            case 2: printf("email should not contain any space re enter valid email: ");
+            break;
+            case 3: printf("First character should not be @ re enter valid email: ");
+            break;
+            case 4: printf("Enter atleast one character between @ and .com: ");
+            break;
+            case 5: printf("There should be one @ character in email: ");
+            break;
+            case 6: printf("Last four characters must be .com: ");
+            break;
+            case 7: printf("email should be unique: ");
+            break;
+        }
         scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
-       }
-       else if(validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook)==3)
-       {
-        printf("First character should not be @ re enter valid email: ");
-        scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
-       }
-       else if(validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook)==4)
-       {
-        printf("Enter atleast one character between @ and .com: ");
-        scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
-       }
-       else if(validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook)==5)
-       {
-        printf("There should be one @ character in email: ");
-        scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
-       }
-       else if(validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook)==6)
-       {
-        printf("Last four characters must be .com: ");
-        scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
-       }
-       else if(validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook)==7)
-       {
-        printf("email should be unique: ");
-        scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
-       }
     }
     printf("Contact created successfully.\n");
     addressBook->contactCount++;
@@ -214,30 +189,23 @@ void editContact(AddressBook *addressBook)
         char temp1[50];
         printf("Enter your new number: ");
         scanf(" %[^\n]",temp1);
-         while(validate_phone(temp1,addressBook)!=0)
+        int err;
+    while((err=validate_phone(temp1,addressBook))!=0)
     {
-        if(validate_phone(temp1,addressBook)==4 && strcmp(addressBook->contacts[match[choice1-1]].phone,temp1)==0)
+        if(err==4 && strcmp(addressBook->contacts[match[choice1-1]].phone,temp1)==0)
         break;
-        else if(validate_phone(temp1,addressBook)==1)
+        switch(err)
         {
-        printf("Enter only 10 digits: ");
+        case 1: printf("Enter only 10 digits: ");
+        break;
+        case 2: printf("First digit should be greater than 5 Re-enter valid phone number: ");
+        break;
+        case 3: printf("Enter only digits: "); 
+        break;
+        case 4:  printf("phone no should be unique: ");
+        break;
+        }
         scanf(" %s",temp1);
-        }
-        else if(validate_phone(temp1,addressBook)==2)
-        {
-            printf("First digit should be greater than 5 Re-enter valid phone number: ");
-            scanf(" %s",temp1);
-        }
-        else if(validate_phone(temp1,addressBook)==3)
-        {
-            printf("Enter only digits: "); 
-            scanf(" %s",temp1);
-        }
-        else if(validate_phone(temp1,addressBook)==4)
-        {
-            printf("phone no should be unique: "); 
-            scanf(" %s",temp1);
-        }
     }
     strcpy(addressBook->contacts[match[choice1-1]].phone,temp1);
         break;
@@ -255,45 +223,28 @@ void editContact(AddressBook *addressBook)
         char temp[50];
         printf("Enter your new email: ");
         scanf(" %[^\n]",temp);
-        while(validate_email(temp,addressBook)!=0)
+       while((err=validate_email(temp,addressBook))!=0)
     {
-        if(validate_email(temp,addressBook)==7 && strcmp(addressBook->contacts[match[choice1-1]].email,temp)==0)
+        if(err==7 && strcmp(addressBook->contacts[match[choice1-1]].email,temp)==0)
         break;
-       else if(validate_email(temp,addressBook)==1)
-       {
-       printf("email should not contain uppercase characters re enter valid email: ");
-       scanf(" %[^\n]",temp);
-       }
-       else if(validate_email(temp,addressBook)==2)
-       {
-        printf("email should not contain any space re enter valid email: ");
+        switch(err)
+        {
+            case 1: printf("email should not contain uppercase characters re enter valid email: ");
+            break;
+            case 2: printf("email should not contain any space re enter valid email: ");
+            break;
+            case 3: printf("First character should not be @ re enter valid email: ");
+            break;
+            case 4: printf("Enter atleast one character between @ and .com: ");
+            break;
+            case 5: printf("There should be one @ character in email: ");
+            break;
+            case 6: printf("Last four characters must be .com: ");
+            break;
+            case 7: printf("email should be unique: ");
+            break;
+        }
         scanf(" %[^\n]",temp);
-       }
-       else if(validate_email(temp,addressBook)==3)
-       {
-        printf("First character should not be @ re enter valid email: ");
-        scanf(" %[^\n]",temp);
-       }
-       else if(validate_email(temp,addressBook)==4)
-       {
-        printf("Enter atleast one character between @ and .com: ");
-        scanf(" %[^\n]",temp);
-       }
-       else if(validate_email(temp,addressBook)==5)
-       {
-        printf("There should be one @ character in email: ");
-        scanf(" %[^\n]",temp);
-       }
-       else if(validate_email(temp,addressBook)==6)
-       {
-        printf("Last four characters must be .com: ");
-        scanf(" %[^\n]",temp);
-       }
-       else if(validate_email(temp,addressBook)==7)
-       {
-        printf("email should be unique: ");
-        scanf(" %[^\n]",temp);
-       }
     }
     strcpy(addressBook->contacts[match[choice1-1]].email,temp);
         break;
