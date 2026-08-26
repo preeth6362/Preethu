@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "contact.h"
+#include "file.h"
 
 int main() {
     int sortChoice,choice;
@@ -35,10 +36,11 @@ int main() {
                 listContacts(&addressBook, sortChoice);
                 break;
             case 6:
+               saveContactsToFile(&addressBook);
                 printf("Saving...\n");
-                //saveContactsToFile(&addressBook);
                 break;   
             case 7:
+                
                 printf("Exiting...\n");
                 break;
             default:
