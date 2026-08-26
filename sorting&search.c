@@ -56,7 +56,7 @@ void sort_email(AddressBook *address)
         }
     }
 }
-int search_name(const char *sub,const AddressBook *main,int i)
+/*int search_name(const char *sub,const AddressBook *main,int i)
 {
         for(int j=0;main->contacts[i].name[j]!=0;j++)
         {
@@ -132,4 +132,4 @@ int search_email(const char *sub,const AddressBook *main,int i)
             }
         }
         return 0;
-}
+}*/

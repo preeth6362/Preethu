@@ -103,9 +103,6 @@ void createContact(AddressBook *addressBook)
 
 void searchContact(AddressBook *addressBook) 
 {
-    int search_name(const char *,const AddressBook *,int);
-    int search_phone(const char *,const AddressBook *,int);
-    int search_email(const char *,const AddressBook *,int);
     char sub[50];int choice;
     printf("Enter how you want to search: \n");
     printf("1.By name\n2.By phone number\n3.By email\n");
@@ -117,21 +114,21 @@ void searchContact(AddressBook *addressBook)
         case 1: 
         for(int i=0;i<addressBook->contactCount;i++)
         {
-            if(search_name(sub,addressBook,i)==1)
+            if(strcasestr(addressBook->contacts[i].name,sub)!=NULL)
             printf("%s\t\t%s\t\t%s\n",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
         }
         break;
         case 2:
          for(int i=0;i<addressBook->contactCount;i++)
         { 
-         if(search_phone(sub,addressBook,i)==1)
+         if(strcasestr(addressBook->contacts[i].phone,sub)!=NULL)
           printf("%s\t\t%s\t\t%s\n",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
         }
         break;
         case 3: 
         for(int i=0;i<addressBook->contactCount;i++)
         {
-          if(search_email(sub,addressBook,i)==1)
+          if(strcasestr(addressBook->contacts[i].email,sub)!=NULL)
           printf("%s\t\t%s\t\t%s\n",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
         }
         break;
@@ -141,9 +138,6 @@ void searchContact(AddressBook *addressBook)
 
 void editContact(AddressBook *addressBook)
 {
-    int search_name(const char *,const AddressBook *,int);
-    int search_phone(const char *,const AddressBook *,int);
-    int search_email(const char *,const AddressBook *,int);
     int validate_name(char *);
     int validate_phone(char *,AddressBook *);
     int validate_email(char *,AddressBook *);
@@ -159,7 +153,7 @@ void editContact(AddressBook *addressBook)
         case 1: int n=0;
         for(int i=0;i<addressBook->contactCount;i++)
         {
-            if(search_name(str,addressBook,i)==1)
+            if(strcasestr(addressBook->contacts[i].name,str)!=NULL)
             {
             printf("%d] %s\t\t%s\t\t%s\n",n+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
             match[n++]=i;
@@ -178,7 +172,7 @@ void editContact(AddressBook *addressBook)
         case 2: int p=0;
         for(int i=0;i<addressBook->contactCount;i++)
         { 
-         if(search_phone(str,addressBook,i)==1)
+         if(strcasestr(addressBook->contacts[i].phone,str)!=NULL)
          {
           printf("%d] %s\t\t%s\t\t%s\n",p+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
           match[p++]=i;
@@ -212,7 +206,7 @@ void editContact(AddressBook *addressBook)
         case 3: int e=0;
         for(int i=0;i<addressBook->contactCount;i++)
         {
-          if(search_email(str,addressBook,i)==1)
+          if(strcasestr(addressBook->contacts[i].email,str)!=NULL)
           {
           printf("%d] %s\t\t%s\t\t%s\n",e+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
           match[e++]=i;
@@ -255,9 +249,6 @@ void editContact(AddressBook *addressBook)
 
 void deleteContact(AddressBook *addressBook)
 {
-    int search_name(const char *,const AddressBook *,int);
-    int search_phone(const char *,const AddressBook *,int);
-    int search_email(const char *,const AddressBook *,int);
     void delete(AddressBook *,int);
     int choice,choice1;
     char str[50];int match[100];
@@ -271,7 +262,7 @@ void deleteContact(AddressBook *addressBook)
         case 1: int n=0;
         for(int i=0;i<addressBook->contactCount;i++)
         {
-            if(search_name(str,addressBook,i)==1)
+            if(strcasestr(addressBook->contacts[i].name,str)!=NULL)
             {
             printf("%d] %s\t\t%s\t\t%s\n",n+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
             match[n++]=i;
@@ -284,7 +275,7 @@ void deleteContact(AddressBook *addressBook)
         case 2: int p=0;
         for(int i=0;i<addressBook->contactCount;i++)
         { 
-         if(search_phone(str,addressBook,i)==1)
+         if(strcasestr(addressBook->contacts[i].phone,str)!=NULL)
          {
           printf("%d] %s\t\t%s\t\t%s\n",p+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
           match[p++]=i;
@@ -297,7 +288,7 @@ void deleteContact(AddressBook *addressBook)
         case 3: int e=0;
         for(int i=0;i<addressBook->contactCount;i++)
         {
-          if(search_email(str,addressBook,i)==1)
+          if(strcasestr(addressBook->contacts[i].email,str)!=NULL)
           {
           printf("%d] %s\t\t%s\t\t%s\n",e+1,addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
           match[e++]=i;
