@@ -7,9 +7,6 @@
 void listContacts(AddressBook *addressBook, int sortCriteria)
 {
     int choice;
-    void sort_name(AddressBook *);
-    void sort_phone(AddressBook *);
-    void sort_email(AddressBook *);
     printf("How do you want to sort the contacts: \n");
     printf("1.By name\n2.By phone number\n3.By email id\n");
     scanf("%d",&choice);
@@ -46,7 +43,6 @@ void saveAndExit(AddressBook *addressBook) {
 
 void createContact(AddressBook *addressBook)
 {
-    int validate_name(char *);
 	printf("1. Enter name: ");
     scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].name);
     while(validate_name(addressBook->contacts[addressBook->contactCount].name)==0)
@@ -54,7 +50,7 @@ void createContact(AddressBook *addressBook)
         printf("Enter a valid name with only alphanumeric characters and space: ");
         scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].name);
     }
-    int validate_phone(char *,AddressBook *);
+
     printf("2. Enter phone number: ");
     scanf(" %s",addressBook->contacts[addressBook->contactCount].phone);
     int err;
@@ -73,7 +69,7 @@ void createContact(AddressBook *addressBook)
         }
         scanf(" %s",addressBook->contacts[addressBook->contactCount].phone);
     }
-    int validate_email(char *,AddressBook *);
+    
     printf("3. Enter emailid: ");
     scanf(" %[^\n]",addressBook->contacts[addressBook->contactCount].email);
     while((err=validate_email(addressBook->contacts[addressBook->contactCount].email,addressBook))!=0)
@@ -138,10 +134,7 @@ void searchContact(AddressBook *addressBook)
 
 void editContact(AddressBook *addressBook)
 {
-    int validate_name(char *);
-    int validate_phone(char *,AddressBook *);
-    int validate_email(char *,AddressBook *);
-    int choice,choice1;
+    int choice,choice1,choice2;
     char str[50];int match[100];
 	printf("Enter how you want to search : \n");
     printf("1.By name\n2.By number\n3.By email\n");
@@ -161,13 +154,9 @@ void editContact(AddressBook *addressBook)
         }
         printf("Which contact do you want to edit? ");
         scanf("%d",&choice1);
-        printf("Enter your new name: ");
-        scanf(" %[^\n]",addressBook->contacts[match[choice1-1]].name);
-        while(validate_name(addressBook->contacts[match[choice1-1]].name)==0)
-    {
-        printf("Enter a valid name with only alphanumeric characters and space: ");
-        scanf(" %[^\n]",addressBook->contacts[match[choice1-1]].name);
-    }
+        printf("Which field do you want to edit: \n1] name\n2]phone\n3]email\n");
+        scanf("%d",&choice2);
+        editfield(addressBook,choice2,match,choice1);
         break;
         case 2: int p=0;
         for(int i=0;i<addressBook->contactCount;i++)
@@ -180,28 +169,9 @@ void editContact(AddressBook *addressBook)
         }
         printf("Which contact do you want to edit? ");
         scanf("%d",&choice1);
-        char temp1[50];
-        printf("Enter your new number: ");
-        scanf(" %[^\n]",temp1);
-        int err;
-    while((err=validate_phone(temp1,addressBook))!=0)
-    {
-        if(err==4 && strcmp(addressBook->contacts[match[choice1-1]].phone,temp1)==0)
-        break;
-        switch(err)
-        {
-        case 1: printf("Enter only 10 digits: ");
-        break;
-        case 2: printf("First digit should be greater than 5 Re-enter valid phone number: ");
-        break;
-        case 3: printf("Enter only digits: "); 
-        break;
-        case 4:  printf("phone no should be unique: ");
-        break;
-        }
-        scanf(" %s",temp1);
-    }
-    strcpy(addressBook->contacts[match[choice1-1]].phone,temp1);
+         printf("Which field do you want to edit: \n1] name\n2]phone\n3]email\n");
+        scanf("%d",&choice2);
+        editfield(addressBook,choice2,match,choice1);
         break;
         case 3: int e=0;
         for(int i=0;i<addressBook->contactCount;i++)
@@ -214,33 +184,9 @@ void editContact(AddressBook *addressBook)
         }
         printf("Which contact do you want to edit? ");
         scanf("%d",&choice1);
-        char temp[50];
-        printf("Enter your new email: ");
-        scanf(" %[^\n]",temp);
-       while((err=validate_email(temp,addressBook))!=0)
-    {
-        if(err==7 && strcmp(addressBook->contacts[match[choice1-1]].email,temp)==0)
-        break;
-        switch(err)
-        {
-            case 1: printf("email should not contain uppercase characters re enter valid email: ");
-            break;
-            case 2: printf("email should not contain any space re enter valid email: ");
-            break;
-            case 3: printf("First character should not be @ re enter valid email: ");
-            break;
-            case 4: printf("Enter atleast one character between @ and .com: ");
-            break;
-            case 5: printf("There should be one @ character in email: ");
-            break;
-            case 6: printf("Last four characters must be .com: ");
-            break;
-            case 7: printf("email should be unique: ");
-            break;
-        }
-        scanf(" %[^\n]",temp);
-    }
-    strcpy(addressBook->contacts[match[choice1-1]].email,temp);
+         printf("Which field do you want to edit: \n1] name\n2]phone\n3]email\n");
+        scanf("%d",&choice2);
+        editfield(addressBook,choice2,match,choice1);
         break;
         default: printf("Enter valid option\n");
     }
@@ -249,7 +195,6 @@ void editContact(AddressBook *addressBook)
 
 void deleteContact(AddressBook *addressBook)
 {
-    void delete(AddressBook *,int);
     int choice,choice1;
     char str[50];int match[100];
 	printf("Enter how you want to search : \n");

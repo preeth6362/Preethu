@@ -49,7 +49,7 @@ int validate_email(char *str,AddressBook *addressBook)
         return 1;
         else if(str[i]==' ')
         return 2;
-        else if(i==0 && str[i]=='@')
+        else if(i==0 && ((str[i]<'a'||str[i]>'z')&&(str[i]<'0' || str[i]>'9')))
         return 3;
         else if(str[i]=='@' && str[i+1]=='.')
         return 4;

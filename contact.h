@@ -21,5 +21,13 @@ void deleteContact(AddressBook *addressBook);
 void listContacts(AddressBook *addressBook, int sortCriteria);
 void initialize(AddressBook *addressBook);
 void saveContactsToFile(AddressBook *AddressBook);
+int validate_name(char *);
+int validate_phone(char *,AddressBook *);
+int validate_email(char *,AddressBook *);
+void sort_name(AddressBook *);
+void sort_phone(AddressBook *);
+void sort_email(AddressBook *);
+void delete(AddressBook *main,int i);
+void editfield(AddressBook *addressBook,int choice2,int *match,int choice1);
 
 #endif
