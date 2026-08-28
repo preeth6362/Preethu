@@ -120,6 +120,9 @@ void editfield(AddressBook *addressBook,int choice2,int *match,int choice1)
     }
     strcpy(addressBook->contacts[match[choice1-1]].email,temp);
         break;
+        default: printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice2);
+        editfield(addressBook,choice2,match,choice1);
 }
 }
 /*int search_name(const char *sub,const AddressBook *main,int i)

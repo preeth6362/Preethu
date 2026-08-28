@@ -10,7 +10,7 @@ void listContacts(AddressBook *addressBook, int sortCriteria)
     printf("How do you want to sort the contacts: \n");
     printf("1.By name\n2.By phone number\n3.By email id\n");
     scanf("%d",&choice);
-    switch(choice)
+   here3: switch(choice)
     {
         case 1: sort_name(addressBook);
         break;
@@ -18,8 +18,15 @@ void listContacts(AddressBook *addressBook, int sortCriteria)
         break;
         case 3:sort_email(addressBook);
         break;
-        default: printf("Displaying as it is:\n");
+        default: printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice);
+        goto here3;
 
+    }
+    if(addressBook->contactCount==0)
+    {
+        printf("no contacts available\n");
+        return;
     }
     printf("List of contacts:  \n");
     printf("Name\t\tphone\t\temail\n");
@@ -99,36 +106,61 @@ void createContact(AddressBook *addressBook)
 
 void searchContact(AddressBook *addressBook) 
 {
-    char sub[50];int choice;
+    char sub[50];int choice,found=0;
     printf("Enter how you want to search: \n");
     printf("1.By name\n2.By phone number\n3.By email\n");
     scanf("%d",&choice);
-    printf("Enter what you want to search: ");
-    scanf(" %[^\n]",sub);
-    switch(choice)
+    
+  here2:  switch(choice)
     {
-        case 1: 
+        case 1: printf("Enter what you want to search: ");
+    scanf(" %[^\n]",sub);
         for(int i=0;i<addressBook->contactCount;i++)
         {
-            if(strcasestr(addressBook->contacts[i].name,sub)!=NULL)
+            if(strcasestr(addressBook->contacts[i].name,sub)!=NULL){
             printf("%s\t\t%s\t\t%s\n",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
+            found=1;
+            }
+        }
+        if(found==0)
+        {
+            printf("No contact available\n");
+            return;
         }
         break;
-        case 2:
+        case 2:printf("Enter what you want to search: ");
+    scanf(" %[^\n]",sub);
          for(int i=0;i<addressBook->contactCount;i++)
         { 
-         if(strcasestr(addressBook->contacts[i].phone,sub)!=NULL)
+         if(strcasestr(addressBook->contacts[i].phone,sub)!=NULL){
           printf("%s\t\t%s\t\t%s\n",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
+          found=1;
+         }
+        }
+        if(found==0)
+        {
+            printf("No contact available\n");
+            return;
         }
         break;
-        case 3: 
+        case 3: printf("Enter what you want to search: ");
+    scanf(" %[^\n]",sub);
         for(int i=0;i<addressBook->contactCount;i++)
         {
-          if(strcasestr(addressBook->contacts[i].email,sub)!=NULL)
+          if(strcasestr(addressBook->contacts[i].email,sub)!=NULL){
           printf("%s\t\t%s\t\t%s\n",addressBook->contacts[i].name,addressBook->contacts[i].phone,addressBook->contacts[i].email);
+          found=1;
+          }
+        }
+        if(found==0)
+        {
+            printf("No contact available\n");
+            return;
         }
         break;
-        default: printf("Enter valid option\n");
+        default: printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice);
+        goto here2;
     } 
 }
 
@@ -139,11 +171,11 @@ void editContact(AddressBook *addressBook)
 	printf("Enter how you want to search : \n");
     printf("1.By name\n2.By number\n3.By email\n");
     scanf("%d",&choice);
-	printf("what you want to edit: ");
-    scanf(" %[^\n]",str);
-    switch(choice)
+here: switch(choice)
     {
-        case 1: int n=0;
+        case 1:printf("what do you want to search: ");
+    scanf(" %[^\n]",str);
+     int n=0;
         for(int i=0;i<addressBook->contactCount;i++)
         {
             if(strcasestr(addressBook->contacts[i].name,str)!=NULL)
@@ -152,13 +184,25 @@ void editContact(AddressBook *addressBook)
             match[n++]=i;
             }
         }
+        if(n==0)
+        {
+            printf("No contacts available\n");
+            return;
+        }
         printf("Which contact do you want to edit? ");
         scanf("%d",&choice1);
+        while(choice1>n || choice1<1)
+        {
+        printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice1);
+        }
         printf("Which field do you want to edit: \n1] name\n2]phone\n3]email\n");
         scanf("%d",&choice2);
         editfield(addressBook,choice2,match,choice1);
         break;
-        case 2: int p=0;
+        case 2: printf("what do you want to search: ");
+    scanf(" %[^\n]",str);
+    int p=0;
         for(int i=0;i<addressBook->contactCount;i++)
         { 
          if(strcasestr(addressBook->contacts[i].phone,str)!=NULL)
@@ -167,13 +211,25 @@ void editContact(AddressBook *addressBook)
           match[p++]=i;
          }
         }
+        if(p==0)
+        {
+            printf("No contacts available\n");
+            return;
+        }
         printf("Which contact do you want to edit? ");
         scanf("%d",&choice1);
+        while(choice1>p || choice1<1)
+        {
+        printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice1);
+        }
          printf("Which field do you want to edit: \n1] name\n2]phone\n3]email\n");
         scanf("%d",&choice2);
         editfield(addressBook,choice2,match,choice1);
         break;
-        case 3: int e=0;
+        case 3: printf("what do you want to search: ");
+    scanf(" %[^\n]",str);
+    int e=0;
         for(int i=0;i<addressBook->contactCount;i++)
         {
           if(strcasestr(addressBook->contacts[i].email,str)!=NULL)
@@ -182,13 +238,25 @@ void editContact(AddressBook *addressBook)
           match[e++]=i;
           }
         }
+        if(e==0)
+        {
+            printf("No contacts available\n");
+            return;
+        }
         printf("Which contact do you want to edit? ");
         scanf("%d",&choice1);
+        while(choice1>e || choice1<1)
+        {
+        printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice1);
+        }
          printf("Which field do you want to edit: \n1] name\n2]phone\n3]email\n");
         scanf("%d",&choice2);
         editfield(addressBook,choice2,match,choice1);
         break;
-        default: printf("Enter valid option\n");
+        default: printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice);
+        goto here;
     }
     printf("Contact updated successfully.\n");
 }
@@ -200,11 +268,12 @@ void deleteContact(AddressBook *addressBook)
 	printf("Enter how you want to search : \n");
     printf("1.By name\n2.By number\n3.By email\n");
     scanf("%d",&choice);
-    printf("what you want to delete: ");
-    scanf(" %[^\n]",str);
-    switch(choice)
+    
+   here1:  switch(choice)
     {
-        case 1: int n=0;
+        case 1: printf("what do you want to search: ");
+    scanf(" %[^\n]",str);
+    int n=0;
         for(int i=0;i<addressBook->contactCount;i++)
         {
             if(strcasestr(addressBook->contacts[i].name,str)!=NULL)
@@ -213,11 +282,23 @@ void deleteContact(AddressBook *addressBook)
             match[n++]=i;
             }
         }
+        if(n==0)
+        {
+            printf("No contacts available\n");
+            return;
+        }
         printf("Which contact do you want to delete? ");
         scanf("%d",&choice1);
+        while(choice1>n || choice1<1)
+        {
+        printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice1);
+        }
         delete(addressBook,match[choice1-1]);
         break;
-        case 2: int p=0;
+        case 2: printf("what do you want to search: ");
+    scanf(" %[^\n]",str);
+    int p=0;
         for(int i=0;i<addressBook->contactCount;i++)
         { 
          if(strcasestr(addressBook->contacts[i].phone,str)!=NULL)
@@ -226,11 +307,23 @@ void deleteContact(AddressBook *addressBook)
           match[p++]=i;
          }
         }
+        if(p==0)
+        {
+            printf("No contacts available\n");
+            return;
+        }
         printf("Which contact do you want to delete? ");
         scanf("%d",&choice1);
+        while(choice1>p || choice1<1)
+        {
+        printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice1);
+        }
         delete(addressBook,match[choice1-1]);
         break;
-        case 3: int e=0;
+        case 3: printf("what do you want to search: ");
+    scanf(" %[^\n]",str);
+        int e=0;
         for(int i=0;i<addressBook->contactCount;i++)
         {
           if(strcasestr(addressBook->contacts[i].email,str)!=NULL)
@@ -239,11 +332,24 @@ void deleteContact(AddressBook *addressBook)
           match[e++]=i;
           }
         }
+        if(e==0)
+        {
+            printf("No contacts available\n");
+            return;
+        }
         printf("Which contact do you want to delete? ");
         scanf("%d",&choice1);
+        while(choice1>e || choice1<1)
+        {
+        printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice1);
+        }
         delete(addressBook,match[choice1-1]);
         break;
-        default: printf("Enter valid option\n");
+        default: printf("Please re enter valid choice only in the above range: ");
+        scanf("%d",&choice);
+        goto here1;
     }
     printf("Contact deleted successfullyy\n");
+     saveContactsToFile(addressBook);
 }
